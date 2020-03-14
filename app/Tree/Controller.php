@@ -11,6 +11,19 @@ use Laravel\Lumen\Routing\Controller as BaseController;
  */
 class Controller extends BaseController
 {
+    /** @var Repository Repository for persisting tree entities */
+    private Repository $repository;
+
+    /**
+     * Constructor.
+     *
+     * @param Repository $repository Repository for persisting tree entities
+     */
+    public function __construct(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Get tree
      *
@@ -18,6 +31,8 @@ class Controller extends BaseController
      */
     public function get()
     {
-        return new JsonResponse('Welcome to the tree');
+        $trees = $this->repository->getAll();
+
+        return new JsonResponse($trees);
     }
 }
