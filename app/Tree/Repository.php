@@ -11,27 +11,24 @@ class Repository
     /** @var Datasource Datasource for interacting with tree data */
     private $datasource;
 
-    /** @var TreeParser Responsible for building trees */
-    private $treeBuilder;
-
     /**
      * Constructor.
      *
-     * @param Datasource  $datasource  Datasource for interacting with tree data
-     * @param TreeParser $treeBuilder Responsible for building trees
+     * @param Datasource $datasource Datasource for interacting with tree data
      */
-    public function __construct(Datasource $datasource, TreeParser $treeBuilder)
+    public function __construct(Datasource $datasource)
     {
         $this->datasource = $datasource;
-        $this->treeBuilder = $treeBuilder;
     }
 
     /**
-     * Returns all trees
+     * Returns tree nodes from the datasource
+     *
+     * @return TreeNode[]
      */
-    public function getAll()
+    public function getAll(): array
     {
-        $treeData = array_map(function ($row) {
+        return array_map(function ($row) {
             return new TreeNode(
                 $row->id,
                 $row->name,
@@ -39,6 +36,5 @@ class Repository
             );
         }, $this->datasource->getAll()->all());
 
-        return $this->treeBuilder->build($treeData);
     }
 }

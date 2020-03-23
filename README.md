@@ -1,9 +1,18 @@
 # Tree
 
-## Getting Started
-Run `composer install`
+## Prerequisites
+* PHP 7.4
+* Composer
+* Local MySQL instance
+* Remove dist from the env file extension and populate with your local DB credentials
 
-Then run  `php -S localhost:8000 -t public`
+## Getting Started
+Run the following
+ * `composer install`
+ * `php artisan migrate:refresh --seed`
+ * `php -S localhost:8000 -t public`
+
+`localhost:8000/tree` will return a tree that lives in the DB with the data that has been migrated over
 
 ## Lumen PHP Framework
 

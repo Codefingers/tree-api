@@ -14,14 +14,19 @@ class Controller extends BaseController
     /** @var Repository Repository for persisting tree entities */
     private Repository $repository;
 
+    /** @var TreeParser Responsible for building and parsing tree data structures */
+    private TreeParser $treeParser;
+
     /**
      * Constructor.
      *
      * @param Repository $repository Repository for persisting tree entities
+     * @param TreeParser $treeParser Responsible for building and parsing tree data structures
      */
-    public function __construct(Repository $repository)
+    public function __construct(Repository $repository, TreeParser $treeParser)
     {
         $this->repository = $repository;
+        $this->treeParser = $treeParser;
     }
 
     /**
@@ -29,10 +34,10 @@ class Controller extends BaseController
      *
      * @return JsonResponse
      */
-    public function get()
+    public function get(): JsonResponse
     {
-        $trees = $this->repository->getAll();
+        $treeNodes = $this->repository->getAll();
 
-        return new JsonResponse($trees);
+        return new JsonResponse($this->treeParser->build($treeNodes));
     }
 }
